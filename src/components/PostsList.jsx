@@ -16,8 +16,24 @@ export default function PostsList() {
             })
             .catch(console.warn)
     }, [])
+
+    // useEffect(() => {
+
+    // }, [postArr])
+
+    function howManyLikes() {
+        let likesCount = 0;
+        postArr.map(pObj => {
+            likesCount += pObj.reactions;
+        })
+        console.log(likesCount);
+        return likesCount;
+    }
+    // howManyLikes(postArr)
     return (
         <div>
+            <h4>We do have {postArr.length} posts</h4>
+            <h4>Total: {howManyLikes(postArr)} reactions</h4>
             <h2>PostsList</h2>
             <ul className="grid unlisted">
                 {postArr.map(pObj =>

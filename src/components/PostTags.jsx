@@ -1,9 +1,10 @@
 function PostTags(props) {
     return (
-        <div>
-            <h2>{props.propsTags.join(', ')}</h2>
+        <div className="tags">
+            {props.propsTags.map((tagObj) => (
+                <p className="tag" key={tagObj}>{tagObj}</p>
+            ))}
         </div>
     )
 }
-
 export default PostTags

@@ -16,7 +16,7 @@ export default function SinglePost(props) {
                 <p>{bodyText}</p>
                 <button onClick={showTextFull}>read {isTextFull ? 'less' : 'more'}</button>
                 <p>{reactions} people liked this</p>
-                <div><PostTags propsTags={tags} /></div>
+                <PostTags propsTags={tags} />
             </div>
         </li>
     )
