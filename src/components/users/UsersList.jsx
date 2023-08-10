@@ -61,10 +61,6 @@ export default function UsersList() {
                     name="select"
                     id="select"
                     onChange={(selectOption) => setSortArrOption(selectOption.target.value)}
-<<<<<<< HEAD
-=======
-                    value={sortArrOption}
->>>>>>> 09ee23f5c6c258077cb0810126dc0b43c48e66ea
                 >
                     <option value="byName">By Name</option>
                     <option value="byNameReverse">By Name (Reversed)</option>
