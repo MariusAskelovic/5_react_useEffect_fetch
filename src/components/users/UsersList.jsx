@@ -1,17 +1,27 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+
+const usersUrl = 'https://dummyjson.com/users'
 
 export default function UsersList() {
-    const usersUrl = 'https://dummyjson.com/users'
+    const [usersArr, setUsersArr] = useState([])
     useEffect(() => {
         fetch(usersUrl)
             .then(get => get.json())
             .then(data => {
-                console.log(data.users);
+                setUsersArr(data.users)
+                console.log(data.users)
             })
             .catch(console.warn)
     }, [])
+    const [image, firstName, lastName] = usersArr;
 
     return (
-        <div></div>
+        <div>
+            {usersArr.map(userObj => (
+                <div key={userObj.id}>
+                    <h3>{userObj.firstName} </h3>
+                </div>
+            ))}
+        </div>
     )
 }
