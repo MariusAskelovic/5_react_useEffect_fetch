@@ -1,46 +1,95 @@
-// parsiunciam failus iskart po to kai susikuria komponentas
-// (useEffect)
-// kai parsiunciam, irasom i state (useState)
-import { useEffect, useState } from "react"
-import SinglePost from "./SinglePost";
+// parsiunciam failus iskarto po to kai susikuria komponentas(useEffect)
+// kai parsiunciam irasom i state (useState)
+
+import { useEffect, useState } from 'react';
+import SinglePost from './SinglePost';
+
+const sortOptions = ['id', 'title', 'reactions'];
 
 const postsUrl = 'https://dummyjson.com/posts';
 
 export default function PostsList() {
-    const [postArr, setPostArr] = useState([])
+    const [postsArr, setPostsArr] = useState([]);
+    const [selectValue, setSelectValue] = useState('title');
+
+    function selectInput(event) {
+        console.log('select happened', event.target.value);
+        setSelectValue(event.target.value);
+    }
+
+    function sortBySelectedValue() {
+        // sort by selectValue
+        const postsArrCopy = [...postsArr]
+        // if (selectValue === 'id') {
+        //     postsArrCopy.sort((aObj, bObj) => aObj.id - bObj.id)
+        // }
+        // console.log(postsArrCopy);
+
+        switch (selectValue) {
+            case 'id':
+                postsArrCopy.sort((aObj, bObj) => aObj.id - bObj.id)
+                break;
+            case 'title':
+                postsArrCopy.sort((aObj, bObj) => aObj.title.localeCompare(bObj.title))
+                break;
+            case 'reactions':
+                postsArrCopy.sort((aObj, bObj) => aObj.id - bObj.id)
+                break;
+            default:
+                console.wanr('selected value not found');
+                break;
+        }
+        setPostsArr(postsArrCopy)
+    }
+
     useEffect(() => {
         fetch(postsUrl)
-            .then(resp => resp.json())
-            .then(dataBack => {
-                setPostArr(dataBack.posts)
+            .then((resp) => resp.json())
+            .then((dataBack) => {
+                // console.log('dataBack.posts ===', dataBack.posts);
+                // irasyti posts is dataBack i postsArr
+                setPostsArr(dataBack.posts.slice(0, 5));
             })
-            .catch(console.warn)
-    }, [])
+            .catch((error) => {
+                console.warn('ivyko klaida:', error);
+            });
+    }, []);
 
-    // useEffect(() => {
+    const howManyPosts = postsArr.length;
 
-    // }, [postArr])
-
-    function howManyLikes() {
-        let likesCount = 0;
-        postArr.map(pObj => {
-            likesCount += pObj.reactions;
-        })
-        console.log(likesCount);
-        return likesCount;
+    function sortByReactions() {
+        console.log('sortByReactions ===');
+        // pasidartyti state kopija
+        const postsArrCopy = [...postsArr];
+        // isrikiuoti kopija
+        postsArrCopy.sort((aObj, bObj) => bObj.reactions - aObj.reactions);
+        // atnaujinti state su kopija
+        console.table(postsArrCopy);
+        setPostsArr(postsArrCopy);
     }
-    // howManyLikes(postArr)
+
     return (
         <div>
-            <h4>We do have {postArr.length} posts</h4>
-            <h4>Total: {howManyLikes(postArr)} reactions</h4>
             <h2>PostsList</h2>
-            <ul className="grid unlisted">
-                {postArr.map(pObj =>
+            <p>Kiek viso: {howManyPosts}</p>
+            <button onClick={sortByReactions}>sort by reactions</button>
+            <p>sort by: {selectValue}</p>
+            <select onChange={selectInput} value={selectValue}>
+                <option disabled value=''>
+                    --select sort option--
+                </option>
+                {sortOptions.map((optValue) => (
+                    <option key={optValue} value={optValue}>
+                        {optValue}
+                    </option>
+                ))}
+            </select>
+            <button onClick={sortBySelectedValue}>Sort</button>
+            <ul className='unlisted grid'>
+                {postsArr.map((pObj) => (
                     <SinglePost key={pObj.id} item={pObj} />
-                )}
+                ))}
             </ul>
         </div>
-    )
+    );
 }
-

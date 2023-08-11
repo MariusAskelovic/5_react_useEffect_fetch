@@ -6,8 +6,8 @@ export default function App() {
   return (
     <div className="container">
       <h1>Fetch</h1>
-      {false && <PostsList />}
-      {true && <UsersList />}
+      {true && <PostsList />}
+      {false && <UsersList />}
     </div>
   )
 }
