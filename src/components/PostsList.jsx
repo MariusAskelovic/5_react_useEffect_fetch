@@ -13,7 +13,7 @@ export default function PostsList() {
     const [selectValue, setSelectValue] = useState('title');
 
     function selectInput(event) {
-        console.log('select happened', event.target.value);
+        // console.log('select happened', event.target.value);
         setSelectValue(event.target.value);
     }
 
@@ -25,20 +25,27 @@ export default function PostsList() {
         // }
         // console.log(postsArrCopy);
 
-        switch (selectValue) {
-            case 'id':
-                postsArrCopy.sort((aObj, bObj) => aObj.id - bObj.id)
-                break;
-            case 'title':
-                postsArrCopy.sort((aObj, bObj) => aObj.title.localeCompare(bObj.title))
-                break;
-            case 'reactions':
-                postsArrCopy.sort((aObj, bObj) => aObj.id - bObj.id)
-                break;
-            default:
-                console.wanr('selected value not found');
-                break;
-        }
+        postsArrCopy.sort((aObj, bObj) =>
+            aObj[selectValue].toString().localeCompare(bObj[selectValue]))
+
+
+        // switch (selectValue) {
+        //     case 'id':
+        //         postsArrCopy.sort((aObj, bObj) =>
+        //             aObj.id.toString().localeCompare(bObj.id))
+        //         break;
+        //     case 'title':
+        //         postsArrCopy.sort((aObj, bObj) =>
+        //             aObj.title.toString().localeCompare(bObj.title))
+        //         break;
+        //     case 'reactions':
+        //         postsArrCopy.sort((aObj, bObj) =>
+        //             aObj.reactions.toString().localeCompare(bObj.reactions))
+        //         break;
+        //     default:
+        //         console.warn('selected value not found');
+        //         break;
+        // }
         setPostsArr(postsArrCopy)
     }
 
@@ -58,7 +65,7 @@ export default function PostsList() {
     const howManyPosts = postsArr.length;
 
     function sortByReactions() {
-        console.log('sortByReactions ===');
+        // console.log('sortByReactions ===');
         // pasidartyti state kopija
         const postsArrCopy = [...postsArr];
         // isrikiuoti kopija
