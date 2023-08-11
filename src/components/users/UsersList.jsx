@@ -16,21 +16,19 @@ export default function UsersList() {
             .catch(console.warn)
     }, [])
 
-    // useEffect(() => {
-    //     // PRADZIA
-    //     fetch(`${usersUrl}/2`, {
-    //         method: 'DELETE',
-    //     })
-    //         .then(res => res.json())
-    //         .then(console.log);
-    //     // PABAIGA
-    // }, [deleteUser])
-
     function deleteUser(idToDelete) {
-        const newArr = usersArr.filter((userObj) => (
-            userObj.id !== idToDelete
-        ))
-        setUsersArr(newArr);
+        fetch(`${usersUrl}/2`, {
+            method: 'DELETE',
+        })
+            .then(res => res.json())
+            .then(() => {
+                const newArr = usersArr.filter((userObj) => (
+                    userObj.id !== idToDelete
+                ))
+                setUsersArr(newArr);
+            })
+            .catch(console.warn)
+
     }
 
     function sortUsers() {
@@ -60,7 +58,7 @@ export default function UsersList() {
                 <select
                     name="select"
                     id="select"
-                    onChange={(selectOption) => setSortArrOption(selectOption.target.value)}
+                    onChange={(event) => setSortArrOption(event.target.value)}
                 >
                     <option value="byName">By Name</option>
                     <option value="byNameReverse">By Name (Reversed)</option>
